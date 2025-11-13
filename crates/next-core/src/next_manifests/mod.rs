@@ -120,7 +120,14 @@ impl Asset for BuildManifest {
                 let chunk_path = chunk.path().await?;
                 Ok(client_relative_path
                     .get_path_to(&chunk_path)
-                    .context("failed to resolve client-relative path to polyfill")?
+                    .with_context(|| {
+                        format!(
+                            "failed to resolve client-relative path to polyfill relative {} get \
+                             to {}",
+                            client_relative_path.to_string(),
+                            chunk_path.to_string()
+                        )
+                    })?
                     .into())
             })
             .try_join()
