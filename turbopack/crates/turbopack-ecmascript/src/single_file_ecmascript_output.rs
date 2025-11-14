@@ -69,7 +69,7 @@ impl GenerateSourceMap for SingleFileEcmascriptOutput {
 
         let file_source = {
             let mut s = String::new();
-            let _ = file.read().read_to_string(&mut s).await;
+            file.read().read_to_string(&mut s).await?;
             s
         };
 
